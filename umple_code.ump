@@ -1,0 +1,55 @@
+class Person
+{
+  name;
+  * person -<@> 1 RegistrationManager registrationManager;
+  * -- * Registration registrations;
+}
+
+class RegistrationManager
+{
+}
+
+class Registration
+{
+  Integer id;
+  * -<@> 1 RegistrationManager registrationManager;
+}
+
+class Event
+{
+  name;
+  Date eventDate;
+  Time startTime;
+  Time endTime;
+  * -<@> * RegistrationManager registrationManage;
+  * -- * Registration;
+}
+
+//$?[End_of_model]$?
+
+namespace -;
+
+
+class Person
+{
+  position 50 30 109 45;
+  position.association Person:person__RegistrationManager:registrationManager 112,48 2,0;
+  position.association Person__Registration:registrations 112,50 0,2;
+}
+
+class RegistrationManager
+{
+  position 77 213 146 40;
+}
+
+class Registration
+{
+  position 594 42 109 57;
+  position.association Registration__RegistrationManager:registrationManager 0,7 147,13;
+}
+
+class Event
+{
+  position 542 176 135 108;
+  position.association Event__RegistrationManager:registrationManage 0,5 147,21;
+}
