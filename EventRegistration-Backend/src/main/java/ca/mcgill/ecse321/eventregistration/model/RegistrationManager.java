@@ -6,6 +6,7 @@ import java.util.*;
 import java.sql.Date;
 import java.sql.Time;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.CascadeType;
 
@@ -14,6 +15,16 @@ import javax.persistence.CascadeType;
 @Entity
 public class RegistrationManager
 {
+
+  private int id;
+  @Id
+  public int getId() {
+    return id;
+  }
+
+  public void setId(int id) {
+    this.id = id;
+  }
 
   //RegistrationManager Associations
   private List<Person> persons;
@@ -45,9 +56,6 @@ public class RegistrationManager
   public void setEvents(List<Event> events) {
     this.events = events;
   }
-
-
-
 
 
 
