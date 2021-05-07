@@ -275,13 +275,14 @@ public class TestEventRegistrationService {
         assertEquals(0, service.getAllPersons().size());
 
         Event event = null;
+        assertEquals(0, service.getAllEvents().size());
 
         String error = null;
         Registration registration = null;
         try {
             registration = service.register(person, event);
         } catch (IllegalArgumentException e) {
-            error += e.getMessage();
+            error = e.getMessage();
         }
 
         assertNull(registration);
