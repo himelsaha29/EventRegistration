@@ -245,4 +245,49 @@ public class TestEventRegistrationService {
         assertEquals("Event name cannot be empty!", error);
     }
 
+
+    @Test
+    public void testCreateEventEndTimeBeforeStartTime() {
+        String name = "Soccer Game";
+        Calendar c = Calendar.getInstance();
+        c.set(2016, Calendar.OCTOBER, 16, 9, 00, 0);
+        Date eventDate = new Date(c.getTimeInMillis());
+        LocalTime startTime = LocalTime.parse("09:00");
+        c.set(2016, Calendar.OCTOBER, 16, 8, 59, 59);
+        LocalTime endTime = LocalTime.parse("08:59");
+
+        String error = null;
+        Event event = null;
+        try {
+            event = service.createEvent(name, eventDate, Time.valueOf(startTime), Time.valueOf(endTime));
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+
+        assertNull(event);
+        // check error
+        assertEquals("Event end time cannot be before event start time!", error);
+    }
+
+    @Test
+    public void testRegisterNull() {
+        Person person = null;
+        assertEquals(0, service.getAllPersons().size());
+
+        Event event = null;
+
+        String error = null;
+        Registration registration = null;
+        try {
+            registration = service.register(person, event);
+        } catch (IllegalArgumentException e) {
+            error += e.getMessage();
+        }
+
+        assertNull(registration);
+        // check error
+        assertEquals("Person needs to be selected for registration! Event needs to be selected for registration!",
+                error);
+    }
+
 }
