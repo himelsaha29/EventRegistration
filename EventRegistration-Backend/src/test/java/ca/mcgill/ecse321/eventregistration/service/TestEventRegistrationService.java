@@ -82,6 +82,65 @@ public class TestEventRegistrationService {
         assertEquals(name, person.getName());
     }
 
+    @Test
+    public void testCreatePersonNull() {
+        String name = null;
+        String error = null;
+        Person person = null;
+        try {
+            person = service.createPerson(name);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+
+        assertNull(person);
+        // check error
+        assertEquals("Person name cannot be empty!", error);
+    }
+
+    @Test
+    public void testCreatePersonSpaces() {
+        String name = " ";
+        String error = null;
+        Person person = null;
+        try {
+            person = service.createPerson(name);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+
+        assertNull(person);
+        // check error
+        assertEquals("Person name cannot be empty!", error);
+    }
+
+    @Test
+    public void testCreateEvent() {
+        String name = "Soccer Game";
+        Calendar c = Calendar.getInstance();
+        c.set(2017, Calendar.MARCH, 16, 9, 0, 0);
+        Date eventDate = new Date(c.getTimeInMillis());
+        LocalTime startTime = LocalTime.parse("09:00");
+        c.set(2017, Calendar.MARCH, 16, 10, 30, 0);
+        LocalTime endTime = LocalTime.parse("10:30");
+        Event event = null;
+        try {
+            event = service.createEvent(name, eventDate, Time.valueOf(startTime), Time.valueOf(endTime));
+        } catch (IllegalArgumentException e) {
+            fail();
+        }
+        assertNotNull(event);
+        checkResultEvent(event, name, eventDate, startTime, endTime);
+    }
+
+    private void checkResultEvent(Event event, String name, Date eventDate, LocalTime startTime, LocalTime endTime) {
+        assertNotNull(event);
+        assertEquals(name, event.getName());
+        assertEquals(eventDate.toString(), event.getEventDate().toString());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+        assertEquals(startTime.format(formatter).toString(), event.getStartTime().toString());
+        assertEquals(endTime.format(formatter).toString(), event.getEndTime().toString());
+    }
 
 
 }
