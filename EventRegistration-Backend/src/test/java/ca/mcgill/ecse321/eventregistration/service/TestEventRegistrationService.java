@@ -296,6 +296,7 @@ public class TestEventRegistrationService {
         String nameP = "Oscar";
         Person person = new Person();
         person.setName(nameP);
+        assertEquals(0, service.getAllPersons().size());
 
         String nameE = "Soccer Game";
         Calendar c = Calendar.getInstance();
@@ -327,6 +328,11 @@ public class TestEventRegistrationService {
     @Test
     public void testGetExistingPerson() {
         assertEquals(PERSON_KEY, service.getPerson(PERSON_KEY).getName());
+    }
+
+    @Test
+    public void testGetNonExistingPerson() {
+        assertNull(service.getPerson(NONEXISTING_KEY));
     }
 
 }
