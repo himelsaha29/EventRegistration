@@ -99,6 +99,21 @@ public class TestEventRegistrationService {
     }
 
     @Test
+    public void testCreatePersonEmpty() {
+        String name = "";
+        String error = null;
+        Person person = null;
+        try {
+            person = service.createPerson(name);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+        assertNull(person);
+        // check error
+        assertEquals("Person name cannot be empty!", error);
+    }
+
+    @Test
     public void testCreatePersonSpaces() {
         String name = " ";
         String error = null;
@@ -244,7 +259,6 @@ public class TestEventRegistrationService {
         // check error
         assertEquals("Event name cannot be empty!", error);
     }
-
 
     @Test
     public void testCreateEventEndTimeBeforeStartTime() {
