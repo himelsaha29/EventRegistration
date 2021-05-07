@@ -170,6 +170,7 @@ public class TestEventRegistrationService {
 
     private void checkResultRegister(Registration registration, String nameP, String nameE, Date eventDate,
                                      Time startTime, Time endTime) {
+        assertNotNull(registration);
         assertEquals(nameP, registration.getPerson().getName());
         assertEquals(nameE, registration.getEvent().getName());
         assertEquals(eventDate.toString(), registration.getEvent().getDate().toString());
