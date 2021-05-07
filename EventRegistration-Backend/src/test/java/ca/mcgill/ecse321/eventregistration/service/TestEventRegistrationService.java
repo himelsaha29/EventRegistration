@@ -178,4 +178,71 @@ public class TestEventRegistrationService {
         assertEquals(endTime.toString(), registration.getEvent().getEndTime().toString());
     }
 
+    @Test
+    public void testCreateEventNull() {
+        String name = null;
+        Date eventDate = null;
+        Time startTime = null;
+        Time endTime = null;
+
+        String error = null;
+        Event event = null;
+        try {
+            event = service.createEvent(name, eventDate, startTime, endTime);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+
+        assertNull(event);
+        // check error
+        assertEquals(
+                "Event name cannot be empty! Event date cannot be empty! Event start time cannot be empty! Event end time cannot be empty!",
+                error);
+    }
+
+    @Test
+    public void testCreateEventEmpty() {
+        String name = "";
+        Calendar c = Calendar.getInstance();
+        c.set(2017, Calendar.FEBRUARY, 16, 10, 00, 0);
+        Date eventDate = new Date(c.getTimeInMillis());
+        LocalTime startTime = LocalTime.parse("10:00");
+        c.set(2017, Calendar.FEBRUARY, 16, 11, 30, 0);
+        LocalTime endTime = LocalTime.parse("11:30");
+
+        String error = null;
+        Event event = null;
+        try {
+            event = service.createEvent(name, eventDate, Time.valueOf(startTime), Time.valueOf(endTime));
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+
+        assertNull(event);
+        // check error
+        assertEquals("Event name cannot be empty!", error);
+    }
+
+    @Test
+    public void testCreateEventSpaces() {
+        String name = " ";
+        Calendar c = Calendar.getInstance();
+        c.set(2016, Calendar.OCTOBER, 16, 9, 00, 0);
+        Date eventDate = new Date(c.getTimeInMillis());
+        LocalTime startTime = LocalTime.parse("09:00");
+        c.set(2016, Calendar.OCTOBER, 16, 10, 30, 0);
+        LocalTime endTime = LocalTime.parse("10:30");
+
+        String error = null;
+        Event event = null;
+        try {
+            event = service.createEvent(name, eventDate, Time.valueOf(startTime), Time.valueOf(endTime));
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+        assertNull(event);
+        // check error
+        assertEquals("Event name cannot be empty!", error);
+    }
+
 }
