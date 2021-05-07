@@ -142,5 +142,39 @@ public class TestEventRegistrationService {
         assertEquals(endTime.format(formatter).toString(), event.getEndTime().toString());
     }
 
+    @Test
+    public void testRegister() {
+        String nameP = "Oscar2";
+        String nameE = "Soccer Game2";
+        Calendar c = Calendar.getInstance();
+        c.set(2017, Calendar.MARCH, 16, 9, 0, 0);
+        Date eventDate = new Date(c.getTimeInMillis());
+        Time startTime = new Time(c.getTimeInMillis());
+        c.set(2017, Calendar.MARCH, 16, 10, 30, 0);
+        Time endTime = new Time(c.getTimeInMillis());
+        Person person = null;
+        person = service.createPerson(nameP);
+        Event event = null;
+        event = service.createEvent(nameE, eventDate, startTime, endTime);
+        lenient().when(personDao.existsById(anyString())).thenReturn(true);
+        lenient().when(eventDao.existsById(anyString())).thenReturn(true);
+        Registration registration = null;
+        try {
+            registration = service.register(person, event);
+        } catch (IllegalArgumentException e) {
+            fail();
+        }
+
+        checkResultRegister(registration, nameP, nameE, eventDate, startTime, endTime);
+    }
+
+    private void checkResultRegister(Registration registration, String nameP, String nameE, Date eventDate,
+                                     Time startTime, Time endTime) {
+        assertEquals(nameP, registration.getPerson().getName());
+        assertEquals(nameE, registration.getEvent().getName());
+        assertEquals(eventDate.toString(), registration.getEvent().getDate().toString());
+        assertEquals(startTime.toString(), registration.getEvent().getStartTime().toString());
+        assertEquals(endTime.toString(), registration.getEvent().getEndTime().toString());
+    }
 
 }
