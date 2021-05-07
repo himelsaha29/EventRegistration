@@ -291,4 +291,42 @@ public class TestEventRegistrationService {
                 error);
     }
 
+    @Test
+    public void testRegisterPersonAndEventDoNotExist() {
+        String nameP = "Oscar";
+        Person person = new Person();
+        person.setName(nameP);
+
+        String nameE = "Soccer Game";
+        Calendar c = Calendar.getInstance();
+        c.set(2016, Calendar.OCTOBER, 16, 9, 00, 0);
+        Date eventDate = new Date(c.getTimeInMillis());
+        Time startTime = new Time(c.getTimeInMillis());
+        c.set(2016, Calendar.OCTOBER, 16, 10, 30, 0);
+        Time endTime = new Time(c.getTimeInMillis());
+        Event event = new Event();
+        event.setName(nameE);
+        event.setEventDate(eventDate);
+        event.setStartTime(startTime);
+        event.setEndTime(endTime);
+        assertEquals(0, service.getAllEvents().size());
+
+        String error = null;
+        Registration registration = null;
+        try {
+            registration = service.register(person, event);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+
+        assertNull(registration);
+        // check error
+        assertEquals("Person does not exist! Event does not exist!", error);
+    }
+
+    @Test
+    public void testGetExistingPerson() {
+        assertEquals(PERSON_KEY, service.getPerson(PERSON_KEY).getName());
+    }
+
 }
