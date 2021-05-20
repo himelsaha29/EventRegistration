@@ -51,4 +51,12 @@ public class EventRegistrationRepository {
         return e;
     }
 
+    @Transactional
+    public List<Event> getEventsBeforeADeadline(Date deadline) {
+        TypedQuery<Event> q = entityManager.createQuery("select e from Event e where e.date < :deadline",Event.class);
+        q.setParameter("deadline", deadline);
+        List<Event> resultList = q.getResultList();
+        return resultList;
+    }
+
 }
