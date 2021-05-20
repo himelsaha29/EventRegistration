@@ -39,6 +39,9 @@ public class EventRegistrationService {
 
     @Transactional
     public Person getPerson(String name) {
+        if (name == null || name.trim().length() == 0) {
+            throw new IllegalArgumentException("Person name cannot be empty!");
+        }
         Person person = personRepository.findPersonByName(name);
         return person;
     }
@@ -61,6 +64,9 @@ public class EventRegistrationService {
 
     @Transactional
     public Event getEvent(String name) {
+        if (name == null || name.trim().length() == 0) {
+            throw new IllegalArgumentException("Event name cannot be empty!");
+        }
         Event event = eventRepository.findEventByName(name);
         return event;
     }
