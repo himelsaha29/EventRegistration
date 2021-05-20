@@ -135,20 +135,4 @@ public class RegistrationManager
     int index = events.indexOf(aEvent);
     return index;
   }
-  /* Code from template association_MinimumNumberOfMethod */
-  public static int minimumNumberOfPersons()
-  {
-    return 0;
-  }
-  /* Code from template association_AddManyToOne */
-  public Person addPerson(String aName)
-  {
-    return null;
-  }
-  /* Code from template association_MinimumNumberOfMethod */
-  public static int minimumNumberOfRegistrations()
-  {
-    return 0;
-  }
-
 }
