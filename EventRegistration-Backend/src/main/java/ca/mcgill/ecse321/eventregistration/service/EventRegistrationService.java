@@ -53,6 +53,15 @@ public class EventRegistrationService {
 
     @Transactional
     public Event createEvent(String name, Date date, Time startTime, Time endTime) {
+        // Input validation
+        String error = "";
+        if (name == null || name.trim().length() == 0) {
+            error = error + "Event name cannot be empty! ";
+        }
+        if (date == null) {
+            error = error + "Event date cannot be empty! ";
+        }
+
         Event event = new Event();
         event.setName(name);
         event.setEventDate(date);
