@@ -67,7 +67,7 @@ public class EventRegistrationService {
         if (endTime == null) {
             error = error + "Event end time cannot be empty! ";
         }
-        if (endTime != null) {
+        if (endTime != null && startTime != null && endTime.before(startTime)) {
             error = error + "Event end time cannot be before event start time!";
         }
         error = error.trim();
