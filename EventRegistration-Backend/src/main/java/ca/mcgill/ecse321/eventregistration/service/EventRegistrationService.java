@@ -61,6 +61,19 @@ public class EventRegistrationService {
         if (date == null) {
             error = error + "Event date cannot be empty! ";
         }
+        if (startTime == null) {
+            error = error + "Event start time cannot be empty! ";
+        }
+        if (endTime == null) {
+            error = error + "Event end time cannot be empty! ";
+        }
+        if (endTime != null) {
+            error = error + "Event end time cannot be before event start time!";
+        }
+        error = error.trim();
+        if (error.length() > 0) {
+            throw new IllegalArgumentException(error);
+        }
 
         Event event = new Event();
         event.setName(name);
